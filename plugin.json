@@ -1,0 +1,11 @@
+{
+  "name": "Tarantula Pro",
+  "author": "Rafael Tiengo",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": ["gamesir", "controller", "battery", "gyro"],
+    "description": "GameSir Tarantula Pro (original): battery, lights and gyro-mouse from the quick access menu.",
+    "image": ""
+  }
+}
