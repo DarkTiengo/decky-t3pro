@@ -10,6 +10,7 @@ import {
 import { callable, definePlugin, toaster } from "@decky/api";
 import { useEffect, useState } from "react";
 import { FaGamepad } from "react-icons/fa";
+import { startTopbar, stopTopbar, updateTopbar } from "./topbar";
 
 type Status = {
   present: boolean;
@@ -29,6 +30,7 @@ const getStatus = callable<[], Status>("get_status");
 const setLight = callable<[mode: number, brightness: number], boolean>("set_light");
 const setGyroMouse = callable<[on: boolean], boolean>("set_gyro_mouse");
 const setDs4 = callable<[on: boolean], boolean>("set_ds4");
+const logUi = callable<[msg: string], void>("log_ui");
 
 const MODES = ["Desligado", "Sólido", "Respiração", "Fantasma", "Fluxo", "Radar"];
 const ACTIVATION = ["desligado", "liga/desliga com botão", "enquanto segura o botão", "sempre ativo"];
@@ -60,6 +62,7 @@ function Content() {
   const refresh = async () => {
     const st = await getStatus();
     setS(st);
+    updateTopbar(st.battery, st.charging, st.present, batteryColor(st.battery));
     if (st.present) setBright(st.brightness);
   };
   useEffect(() => {
@@ -173,6 +176,7 @@ let timer: ReturnType<typeof setInterval> | undefined;
 async function batteryWatch() {
   try {
     const s = await getStatus();
+    updateTopbar(s.battery, s.charging, s.present, batteryColor(s.battery));
     if (!s.present || s.battery < 0 || s.charging) {
       if (s.charging) lastWarned = 101;
       return;
@@ -195,8 +199,9 @@ async function batteryWatch() {
 }
 
 export default definePlugin(() => {
+  startTopbar((m) => { logUi(m); });
   batteryWatch();
-  timer = setInterval(batteryWatch, 120000);
+  timer = setInterval(batteryWatch, 60000);
   return {
     name: "Tarantula Pro",
     titleView: <div className={staticClasses.Title}>Tarantula Pro</div>,
@@ -204,6 +209,7 @@ export default definePlugin(() => {
     icon: <FaGamepad />,
     onDismount() {
       if (timer) clearInterval(timer);
+      stopTopbar();
     },
   };
 });

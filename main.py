@@ -128,6 +128,9 @@ class Plugin:
             decky.logger.error(f'restart bridge: {msg}')
         return ok
 
+    async def log_ui(self, msg: str):
+        decky.logger.info(f'ui: {msg}')
+
     async def _main(self):
         decky.logger.info('Tarantula Pro plugin loaded')
 
