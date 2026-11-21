@@ -85,7 +85,7 @@ def _status():
 
 # --- Steam actions on back buttons -------------------------------------------
 # A back button with a "button alone" PC shortcut is mapped on the pad to a
-# signal key (L4 = F13 ... T3 = F21). Steps {"steam": "qam" | "menu"} are
+# signal key (L4 = F13 ... T3 = F21). Steps {"steam": "qam" | "menu" | "keyboard"} are
 # executed here, inside Steam's UI, so they work whatever app has keyboard focus.
 EV_KEY = 1
 KEY_F13 = 183
@@ -117,7 +117,7 @@ def _steam_action(btn):
     m = _load_cfg().get('button_macros', {}).get(btn)
     steps = m.get('steps', []) if isinstance(m, dict) else (m or [])
     for s in steps:
-        if s.get('steam') in ('qam', 'menu'):
+        if s.get('steam') in ('qam', 'menu', 'keyboard'):
             return s['steam']
     return None
 

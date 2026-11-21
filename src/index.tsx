@@ -12,6 +12,7 @@ import { addEventListener, callable, definePlugin, removeEventListener, toaster 
 import { useEffect, useState } from "react";
 import { FaGamepad } from "react-icons/fa";
 import { startTopbar, stopTopbar, updateTopbar } from "./topbar";
+import { toggleKeyboard } from "./keyboard";
 
 type Status = {
   present: boolean;
@@ -203,6 +204,7 @@ async function batteryWatch() {
 // Steam's UI, so they work whatever app has the keyboard.
 function onSteamAction(action: string) {
   if (action === "menu") Navigation.OpenSideMenu(1 /* SideMenu.Main */);
+  else if (action === "keyboard") toggleKeyboard((m) => { logUi(m); });
   else Navigation.OpenQuickAccessMenu();
 }
 
