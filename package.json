@@ -3,7 +3,10 @@
   "version": "0.2.0",
   "description": "Decky plugin: GameSir Tarantula Pro battery, lights and gyro in Game Mode",
   "type": "module",
-  "scripts": { "build": "rollup -c", "watch": "rollup -c -w" },
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
   "author": "Rafael Tiengo",
   "license": "BSD-3-Clause",
   "devDependencies": {
@@ -19,5 +22,19 @@
     "@decky/api": "^1.1.3",
     "react-icons": "^5.3.0",
     "tslib": "^2.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkTiengo/decky-t3pro.git"
+  },
+  "homepage": "https://github.com/DarkTiengo/decky-t3pro#readme",
+  "keywords": [
+    "decky",
+    "plugin",
+    "gamesir",
+    "tarantula",
+    "controller",
+    "battery",
+    "bazzite"
+  ]
 }
