@@ -1,4 +1,5 @@
 import {
+  Navigation,
   ButtonItem,
   DropdownItem,
   PanelSection,
@@ -7,7 +8,7 @@ import {
   ToggleField,
   staticClasses,
 } from "@decky/ui";
-import { callable, definePlugin, toaster } from "@decky/api";
+import { addEventListener, callable, definePlugin, removeEventListener, toaster } from "@decky/api";
 import { useEffect, useState } from "react";
 import { FaGamepad } from "react-icons/fa";
 import { startTopbar, stopTopbar, updateTopbar } from "./topbar";
@@ -198,7 +199,15 @@ async function batteryWatch() {
   }
 }
 
+// Steam actions fired by a back button (see main.py _watch): opened from inside
+// Steam's UI, so they work whatever app has the keyboard.
+function onSteamAction(action: string) {
+  if (action === "menu") Navigation.OpenSideMenu(1 /* SideMenu.Main */);
+  else Navigation.OpenQuickAccessMenu();
+}
+
 export default definePlugin(() => {
+  const steamListener = addEventListener<[string]>("t3pro_steam", onSteamAction);
   startTopbar((m) => { logUi(m); });
   batteryWatch();
   timer = setInterval(batteryWatch, 60000);
@@ -209,6 +218,7 @@ export default definePlugin(() => {
     icon: <FaGamepad />,
     onDismount() {
       if (timer) clearInterval(timer);
+      removeEventListener("t3pro_steam", steamListener);
       stopTopbar();
     },
   };

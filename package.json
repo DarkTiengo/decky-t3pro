@@ -1,6 +1,6 @@
 {
   "name": "decky-t3pro",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Decky plugin: GameSir Tarantula Pro battery, lights and gyro in Game Mode",
   "type": "module",
   "scripts": {
